@@ -9,91 +9,129 @@ function Task(id) {
 //  column --> colum the task belongs to / typestring
 //  name --> the name we display / typestring
 
-    this.getName = function() {
+    this.getName = function () {
         return this.name;
     };
-    this.setName = function(newName) {
+    this.setName = function (newName) {
         this.name = newName;
     };
 
-    this.getDueDate = function() {
+    this.getDueDate = function () {
         return this.DueDate;
     };
-    this.setDueDate = function(newDueDate) {
+    this.setDueDate = function (newDueDate) {
         this.DueDate = newDueDate;
     };
 
-    this.getPriority = function() {
+    this.getPriority = function () {
         return this.Priority;
     };
-    this.setPriority = function(newPriority) {
-        this.Priority = Priority;
+    this.setPriority = function (newPriority) {
+        this.Priority = newPriority;
     };
 
-    this.getDependency = function() {
+    this.getDependency = function () {
         return this.Dependency;
     };
-    this.setDependency = function(newDependency) {
+    this.setDependency = function (newDependency) {
         this.Dependency = newDependency;
     };
 
-    this.getColumn = function() {
+    this.getColumn = function () {
         return this.Column;
     };
-    this.setColumn = function(newColumn) {
+    this.setColumn = function (newColumn) {
         this.Column = newColumn;
     };
 
-    this.getTags = function() {
+    this.getTags = function () {
         return this.Tags;
     };
-    this.setTags = function(newTags) {
+    this.setTags = function (newTags) {
         this.Tags = newTags;
     };
 
-    this.getID = function() {
+    this.getID = function () {
         return this.id;
     };
 }
 
 var arrayOfTasks = [];
+var arrayOfColumns = ['deleted', 'todo', 'working'];
 
-var createTask = function(column) {
+var createTask = function (column) {
 
-    var id = arrayOfTasks.length + 1;
-    var task = new Task(id);
+    var task = new Task(arrayOfTasks.length + 1);
     task.setColumn(column);
 
-    // get all the details and add them to the tasks 
+    // get all the details and add them to the tasks
 
     arrayOfTasks.push(task);
     return task;
 };
 
-var createColumn = function() {
+var printColumn = function (columnName) {
+    for (var i = 0; i < arrayOfTasks.length; i++) {
+        var pointer = arrayOfTasks[i];
 
+        if (pointer.getColumn() === columnName) {
+            console.log(pointer.getID());
+        }
+    }
+}
+
+var createColumn = function (columnName) {
+    arrayOfColumns.push(columnName);
+}
+
+var moveTask = function (id, column) {
+    // the task with the id gets moved to a different column
+    for (var i = 0; i < arrayOfTasks.length; i++) {
+        var pointer = arrayOfTasks[i];
+        if (pointer.getID() === id) {
+
+            pointer.setColumn(column);
+
+        }
+    }
+}
+
+var deleteTask = function (id) {
+
+    moveTask(id, arrayOfColumns[0]);
 }
 
 //////////////////////////////////////////
 
 
-createTask('todo');
-createTask('working');
+createTask(arrayOfColumns[1]);
+createTask(arrayOfColumns[2]);
 
-for (var i = 0; i < arrayOfTasks.length; i++) {
+printColumn(arrayOfColumns[1]);
 
-    var pointer = arrayOfTasks[i];
-    //console.log(pointer.getID());
+createColumn('done');
 
-    if (pointer.getColumn() === 'todo') {
-        //print all todo tasks
+moveTask(1, arrayOfColumns[2]);
 
-        console.log("TODO");
-        console.log(pointer.getID());
-    };
+printColumn(arrayOfColumns[2]);
 
-    for (var property in pointer) {
-        //print all the properties
-        //console.log(pointer[property]);
-    }
-}
+deleteTask(1);
+printColumn(arrayOfColumns[0]);
+
+// for (var i = 0; i < arrayOfTasks.length; i++) {
+
+//     var pointer = arrayOfTasks[i];
+//     //console.log(pointer.getID());
+
+//     if (pointer.getColumn() === 'todo') {
+//         //print all todo tasks
+
+//         console.log("TODO");
+//         console.log(pointer.getID());
+//     };
+
+//     for (var property in pointer) {
+//         //print all the properties
+//         //console.log(pointer[property]);
+//     }
+// }
